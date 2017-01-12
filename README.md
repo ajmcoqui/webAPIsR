@@ -16,12 +16,17 @@ Get data from https://api.github.com using httr's convenience functions for OAut
 
 ## More resources
 #### On APIs and HTTP: 
-    - https://zapier.com/learn/apis/chapter-1-introduction-to-apis/
-    - https://www.ntu.edu.sg/home/ehchua/programming/webprogramming/HTTP_Basics.html
+https://zapier.com/learn/apis/chapter-1-introduction-to-apis/
+
+https://www.ntu.edu.sg/home/ehchua/programming/webprogramming/HTTP_Basics.html
 
 #### More on the tools:
-    - `help(package=httr)`
-    - https://cran.r-project.org/web/packages/httr/vignettes/quickstart.html
-    - http://github.com/hadley/httr/tree/master/demo
-    - https://cran.r-project.org/web/packages/jsonlite/vignettes/json-apis.html
-    - https://cran.r-project.org/web/packages/httr/vignettes/api-packages.html
+`help(package=httr)`
+
+https://cran.r-project.org/web/packages/httr/vignettes/quickstart.html
+
+http://github.com/hadley/httr/tree/master/demo
+
+https://cran.r-project.org/web/packages/jsonlite/vignettes/json-apis.html
+
+https://cran.r-project.org/web/packages/httr/vignettes/api-packages.html
