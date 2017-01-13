@@ -87,5 +87,3 @@ swapi_planets$name
 
 # In real life, you'd also want to handle any errors, headers, proxy, rate limits, etc. as needed.
 help(package=httr)
-
-# Someone wrote a package for swapi:  https://github.com/Ironholds/rwars
