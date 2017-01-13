@@ -21,10 +21,8 @@ text_content
 
 # Parse with httr
 parsed_content <- content(alderaan, as = "parsed")
-parsed_content
 names(parsed_content)
 parsed_content$count
-parsed_content$`next`
 str(parsed_content$results)
 parsed_content$results[[1]]$name
 parsed_content$results[[1]]$terrain
@@ -61,7 +59,6 @@ swapi_planets$name
 
 # Get the next page of results based on the content of the `next` field
 next_page <- GET(json_planets$`next`) %>% stop_for_status()
-next_page$status_code
 
 # Use a function to parse the results
 parsed_next_page <- json_parse(next_page)
@@ -88,7 +85,7 @@ while(!is.null(next_page)) {
 length(swapi_planets$name)
 swapi_planets$name
 
-# In real life, you'd also want to handle any errors, headers, rate limits, etc. as needed.
+# In real life, you'd also want to handle any errors, headers, proxy, rate limits, etc. as needed.
 help(package=httr)
 
 # Someone wrote a package for swapi:  https://github.com/Ironholds/rwars
