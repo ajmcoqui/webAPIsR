@@ -9,9 +9,8 @@ library(magrittr)
 
 alderaan <- GET("http://swapi.co/api/planets/?search=alderaan")
 # Same call in a different format
-# alderaan <- GET("http://swapi.co/api/planets/", query = list(search = "alderaan"))
+alderaan <- GET("http://swapi.co/api/planets/", query = list(search = "alderaan"))
 
-stop_for_status(alderaan)
 names(alderaan)
 alderaan$status_code
 alderaan$headers$`content-type`
@@ -49,9 +48,7 @@ json_parse <- function(req) {
 
 # List results
 planets <- GET("http://swapi.co/api/planets") %>% stop_for_status()
-planets$status_code
 json_planets <- json_parse(planets)
-# json_planets
 
 # The response includes metadata as well as results
 names(json_planets)
