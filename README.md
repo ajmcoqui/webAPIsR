@@ -1,9 +1,13 @@
 # webAPIsR
 These are example scripts for my "Using web APIs in R" presentation from rstudio::conf 2017.
 
+## Presentation
+### WebAPIsInR_Expanded.Rmd
+Slides from my rstudio::conf presentation.
+
 ## Scripts
 ### omdb.R
-Get data from http://www.omdbapi.com/, and open-source movie database.  Explore the GET response; parse it with jsonlite or xml2, depending on the response format.
+Get data from http://www.omdbapi.com/, an open-source movie database.  Explore the GET response; parse it with jsonlite or xml2, depending on the response format.
 
 ### swapi.R
 Get data from https://swapi.co/, an open-source Star Wars database.  Explore the GET response, parse with jsonlite, create a function to parse automatically, write a loop to process a paged response.
@@ -20,7 +24,7 @@ https://zapier.com/learn/apis/chapter-1-introduction-to-apis/
 
 https://www.ntu.edu.sg/home/ehchua/programming/webprogramming/HTTP_Basics.html
 
-#### More on the tools:
+#### On the packages:
 `help(package=httr)`
 
 https://cran.r-project.org/web/packages/httr/vignettes/quickstart.html
