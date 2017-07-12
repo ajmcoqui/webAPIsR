@@ -16,11 +16,11 @@ alderaan$status_code
 alderaan$headers$`content-type`
 
 # Get the content of the response
-text_content <- content(alderaan, as = "text", encoding = "UTF-8")
+text_content <- content(alderaan, "text", encoding = "UTF-8")
 text_content
 
 # Parse with httr
-parsed_content <- content(alderaan, as = "parsed")
+parsed_content <- content(alderaan, "parsed")
 names(parsed_content)
 parsed_content$count
 str(parsed_content$results)
@@ -39,8 +39,8 @@ planetary_data$terrain
 
 # Helper function
 json_parse <- function(req) {
-  text <- content(req, as = "text", encoding = "UTF-8")
-  if (identical(text, "")) warn("No output to parse.")
+  text <- content(req, "text", encoding = "UTF-8")
+  if (identical(text, "")) warning("No output to parse.")
   fromJSON(text)
 }
 
@@ -86,6 +86,6 @@ length(swapi_planets$name)
 swapi_planets$name
 
 # In real life, you'd also want to handle any errors, headers, proxy, rate limits, etc. as needed.
-help(package=httr)
+help(package = httr)
 
 # Someone wrote a package for swapi:  https://github.com/Ironholds/rwars

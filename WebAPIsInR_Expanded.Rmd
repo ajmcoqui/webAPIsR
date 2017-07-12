@@ -1,12 +1,12 @@
 ---
 title: "Using Web APIs in R"
 author: "Amanda Gadrow"
-date: "January 13, 2017"
+date: "July 12, 2017"
 output: 
   ioslides_presentation:
-    css: styles.css
+    css: resources/styles.css
     highlight: pygments
-    logo: RStudio-Logo-Blue-Gray-250.png
+    logo: resources/RStudio-Logo-Blue-Gray-250.png
 ---
 
 ```{r setup, include=FALSE}
@@ -15,24 +15,23 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Overview
 
-- Intro and basic assumptions
+- Quick review of web API basics
 - Tools for accessing APIs
 - Lots of examples
 - Practical application
-- Recap
 - What next?
 
-## Assumptions
+## API Basics
 
-- A general interest in data, its acquisition, and its visualization
+![](resources/tin-can_104.jpg)
 
-- Familiarity with R
+```{r}
+# Image source: http://indianapublicmedia.org/amomentofscience/files/2010/05/tin-can_104.jpg
+```
 
-- A basic understanding of HTTP communication concepts, if not the syntax
+## Client-Server Communication {.smaller}
 
-## Assumptions {.smaller}
-
-![](client-server.png)
+![](resources/client-server.png)
 .
 
 Request:
@@ -43,21 +42,24 @@ Response:
 
     {"Title":"Clue","Year":"1985","Rated":"PG", ...}
 
-```{img r}
+```{r}
 # Image source: https://mdn.mozillademos.org/files/4291/client-server.png
 ```
 
-## What is an API | ... and why would I want to use one?
+## API Resource Map {.smaller}
 
-- API: Application Programming Interface
+![](resources/resource-url-graph-1.0.png)
 
-- APIs allow you to access a program from within another program
 
-- For data retrieval, we usually mean APIs based on HTTP communication, a.k.a. web APIs
+```{r}
+# Image source: https://labs.aweber.com/images/docs/reference/resource-url-graph-1.0.png
+```
 
-- APIs usually provide read and/or write access to data stores
+## API Documentation {.smaller}
 
-- APIs allow you to access data on an ongoing basis
+![](resources/swapi_doc2.png)
+
+Documentation example:  https://swapi.co/documentation
 
 ## Tools for accessing web APIs from R
 
@@ -68,39 +70,120 @@ Response:
 
 - **jsonlite, xml2** for parsing the response
 
+<br/>
+<hr/>
 
 *And once you have the data...*
 
-- **dplyr, tidyr, lubridate**, etc. for data wrangling
+- **dplyr, tidyr, lubridate, stringr**, etc. for data wrangling
 
-## Lots of examples
+<center>![](resources/tidyverse.png)</center>
 
-**Example scripts are available at** https://github.com/ajmcoqui/webAPIsR
+## httr request
+To make a request, first load httr, then call GET() with a url:
 
-.
+``` {r echo=TRUE}
+library(httr)
+r <- GET("http://swapi.co/api/planets/1")
+```
 
-OMDB - http://www.omdbapi.com/
+This gives you a response object:
+
+``` {r echo = TRUE}
+r
+```
+
+## httr response
+Use various helpers to dig into the response object:
+
+``` {r echo=TRUE}
+status_code(r)
+
+headers(r)
+```
+
+## httr response body
+And understand the content of the response:
+
+``` {r echo=TRUE}
+str(content(r))
+```
+
+## httr methods
+
+Very conveniently match HTTP verbs:
+
+`HEAD()`
+
+`GET()`
+
+`POST()`
+
+`PATCH()`
+
+`PUT()`
+
+`DELETE()`
+
+## http response components: status  {.smaller}
+
+```{r echo=TRUE}
+http_status(r)
+
+r$status_code
+```
+
+You can automatically throw a warning or raise an error if a request did not succeed with `warn_for_status(r)` or `stop_for_status(r)`
+
+## http response components: headers  {.smaller}
+```{r echo=TRUE}
+headers(r)
+```
+
+## http response components: cookies  {.smaller}
+
+```{r echo=TRUE}
+cookies(r)
+```
+
+## http response components: body {.smaller}
+```{r echo=TRUE, eval=FALSE}
+content(r, "text")  # character vector
+```
+`## [1] "{\"name\":\"Tatooine\",\"rotation_period\":\"23\",
+\"orbital_period\":\"304\",\"diameter\":\"10465\",\"climate\":\"arid\",
+\"gravity\":\"1 standard\",\"terrain\":\"desert\",
+\"surface_water\":\"1\",\"population\":\"200000\",
+\"residents\":[\"http://swapi.co/api/people/1/\",
+\"http://swapi.co/api/people/2/\",\"http://swapi.co/api/people/4/\",
+\"http://swapi.co/api/people/6/\",\"http://swapi.co/api/people/7/\",
+\"http://swapi.co/api/people/8/\",\"http://swapi.co/api/people/9/\",
+\"http://swapi.co/api/people/11/\",\"http://swapi.co/api/people/43/\",
+\"http://swapi.co/api/people/62/\"],\"films\":[\"http://swapi.co/api/films/5/\",
+\"http://swapi.co/api/films/4/\",\"http://swapi.co/api/films/6/\",
+\"http://swapi.co/api/films/3/\",\"http://swapi.co/api/films/1/\"],
+\"created\":\"2014-12-09T13:50:49.641000Z\",
+\"edited\":\"2014-12-21T20:48:04.175778Z\",\"url\":\"http://swapi.co/api/planets/1/\"}"`
+
+## http response components: body {.smaller}
+```{r echo=TRUE}
+content(r, "raw")  # raw vector, for non-text responses
+```
+
+## http response components: body {.smaller}
+```{r echo=TRUE}
+content(r, "parsed")  # default parsers for common file types
+```
+
+## Examples
+
+<br/>
 
 SWAPI - https://swapi.co/
 
 Twitter (OAuth1) - https://api.twitter.com
 
 GitHub (OAuth2) - https://api.github.com
-
-## Practical application {.smaller}
-
-*Support Ticket Reports, in Two Parts*
-
-1. R script to get support ticket data via API
-    - Pages through data and puts it all in a single dataframe
-    - Filters, tidies, and flattens the raw data into a nice, easy-to-use rectangle
-    - Saves the tidied data to an S3 bucket
-    - Deployed to RStudio Connect; scheduled to poll the API and update the datastore automatically
-2. Various applications and Rmd documents pull the data from S3
-    - Visualizations for tickets by product, OS, priority, category/feature, etc.
-    - We use this data to target product improvements, documentation enhancements, process improvements
-
-[Support Ticket Demo](SupportTickets.html)
 
 ## Other considerations {.smaller}
 
@@ -116,13 +199,28 @@ GitHub (OAuth2) - https://api.github.com
 
 - Additional **httr** functionality
     - Authentication
-        - authenticate(), oauth1.0_token(), oauth2.0_token(), use_proxy()
+        - `authenticate()`, `oauth1.0_token()`, `oauth2.0_token()`, `use_proxy()`
 
     - Request modifiers
-        - set_cookies(), add_headers(), content_type(), accept()
+        - `set_cookies()`, `add_headers()`, `content_type()`, `accept()`
 
     - Other
-        - stop_for_status(), warn_for_status(), timeout(), verbose(), parse_url(), progress(), etc.
+        - `stop_for_status()`, `warn_for_status()`, `timeout()`, `verbose()`, `parse_url()`, `progress()`
+
+## Practical application {.smaller}
+
+*Support Ticket Reports, in Two Parts*
+
+1. R script to get support ticket data via API
+    - Pages through data and puts it all in a single dataframe
+    - Filters, tidies, and flattens the raw data into a nice, easy-to-use rectangle
+    - Saves the tidied data to an S3 bucket
+    - Deployed to RStudio Connect; scheduled to poll the API and update the datastore automatically
+2. Various applications and Rmd documents pull the data from S3
+    - Visualizations for tickets by product, OS, priority, category/feature, etc.
+    - We use this data to target product improvements, documentation enhancements, process improvements
+
+[Support Ticket Demo](resources/SupportTickets.html)
 
 ## Recap
 
@@ -132,23 +230,21 @@ GitHub (OAuth2) - https://api.github.com
 
 - Once you have the data in R, you can do all sorts of wonderful things with it.
 
-> - Our next new support hire should probably be on the West Coast.
-
 ## What next? {.smaller}
 
 - More on APIs and HTTP: 
     - https://zapier.com/learn/apis/chapter-1-introduction-to-apis/
     - https://www.ntu.edu.sg/home/ehchua/programming/webprogramming/HTTP_Basics.html
 
+<br/>
+
 - More on the tools:
-    - `help(package=httr)`
+    - `> help(package=httr)`
     - https://cran.r-project.org/web/packages/httr/vignettes/quickstart.html
     - http://github.com/hadley/httr/tree/master/demo
     - https://cran.r-project.org/web/packages/jsonlite/vignettes/json-apis.html
     - https://cran.r-project.org/web/packages/httr/vignettes/api-packages.html
 
+<br/>
+
 - amanda@rstudio.com
-
-- https://github.com/ajmcoqui/webAPIsR
-
-- Questions?

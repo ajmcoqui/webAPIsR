@@ -9,10 +9,10 @@ oauth_endpoints("twitter")
 # 2. Register an application at https://apps.twitter.com/
 #    Make sure to set callback url to "http://127.0.0.1:1410/"
 #
-#    Set key and secret as environment variables to keep them out of the code.
-myapp <- oauth_app("rstudio_conf_app",
-                   key = Sys.getenv("TWITTER_KEY"),
-                   secret = Sys.getenv("TWITTER_SECRET")
+#    IRL, you'd want to set the key and secret as environment variables to keep them out of the code.
+myapp <- oauth_app("twitter",
+                   key = "TYrWFPkFAkn4G5BbkWINYw",
+                   secret = "qjOkmKYU9kWfUFWmekJuu5tztE9aEfLbt26WlhZL8"
 )
 
 # 3. Get OAuth credentials
