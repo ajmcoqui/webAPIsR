@@ -4,9 +4,9 @@ author: "Amanda Gadrow"
 date: "January 13, 2017"
 output: 
   ioslides_presentation:
-    css: styles.css
+    css: resources/styles.css
     highlight: pygments
-    logo: RStudio-Logo-Blue-Gray-250.png
+    logo: resources/RStudio-Logo-Blue-Gray-250.png
 ---
 
 ```{r setup, include=FALSE}
@@ -32,7 +32,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Assumptions {.smaller}
 
-![](client-server.png)
+![](resources/client-server.png)
 .
 
 Request:
@@ -77,9 +77,7 @@ Response:
 
 **Example scripts are available at** https://github.com/ajmcoqui/webAPIsR
 
-.
-
-OMDB - http://www.omdbapi.com/
+<br/>
 
 SWAPI - https://swapi.co/
 
@@ -100,7 +98,7 @@ GitHub (OAuth2) - https://api.github.com
     - Visualizations for tickets by product, OS, priority, category/feature, etc.
     - We use this data to target product improvements, documentation enhancements, process improvements
 
-[Support Ticket Demo](SupportTickets.html)
+[Support Ticket Demo](resources/SupportTickets.html)
 
 ## Other considerations {.smaller}
 
@@ -140,6 +138,8 @@ GitHub (OAuth2) - https://api.github.com
     - https://zapier.com/learn/apis/chapter-1-introduction-to-apis/
     - https://www.ntu.edu.sg/home/ehchua/programming/webprogramming/HTTP_Basics.html
 
+<br/>
+
 - More on the tools:
     - `help(package=httr)`
     - https://cran.r-project.org/web/packages/httr/vignettes/quickstart.html
@@ -147,8 +147,8 @@ GitHub (OAuth2) - https://api.github.com
     - https://cran.r-project.org/web/packages/jsonlite/vignettes/json-apis.html
     - https://cran.r-project.org/web/packages/httr/vignettes/api-packages.html
 
+<br/>
+
 - amanda@rstudio.com
 
 - https://github.com/ajmcoqui/webAPIsR
-
-- Questions?
